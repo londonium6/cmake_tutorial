@@ -1,0 +1,1 @@
+This is my cmake tutorial project. Each commit should encapsulate a finished lesson in the cmake tutorial.
