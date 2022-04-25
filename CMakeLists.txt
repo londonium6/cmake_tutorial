@@ -28,10 +28,10 @@ target_include_directories(Tutorial PUBLIC
 "${PROJECT_BINARY_DIR}" 
 )
 
-install(TARGETS Tutorial DESTINATION bin)
-install(FILES "${PROJECT_BINARY_DIR}/TutorialConfig.h"
-DESTINATION include
-)
+install(TARGETS MathFunctions tutorial_compiler_flags
+DESTINATION lib
+EXPORT MathFunctionsTargets)
+install(FILES MathFunctions.h DESTINATION include)
 
 # enable_testing()
 # enable dashboard scripting
@@ -64,3 +64,36 @@ set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE")
 set(CPACK_PACKAGE_VERSION_MAJOR "${Tutorial_VERSION_MAJOR}")
 set(CPACK_PACKAGE_VERSION_MINOR "${Tutorial_VERSION_MINOR}")
 include(CPack)
+
+install(EXPORT MathFunctionsTargets
+FILE MathFunctionsTargets.cmake
+DESTINATION lib/cmake/MathFunctions
+)
+
+install(EXPORT MathFunctionsTargets
+FILE MathFunctionsTargets.cmake
+DESTINATION lib/cmake/MathFunctions
+)
+include(CMakePackageConfigHelpers)
+# generate the config file that is includes the exports
+configure_package_config_file(${CMAKE_CURRENT_SOURCE_DIR}/Config.cmake.in
+"${CMAKE_CURRENT_BINARY_DIR}/MathFunctionsConfig.cmake"
+INSTALL_DESTINATION "lib/cmake/example"
+NO_SET_AND_CHECK_MACRO
+NO_CHECK_REQUIRED_COMPONENTS_MACRO
+)
+# generate the version file for the config file
+write_basic_package_version_file(
+"${CMAKE_CURRENT_BINARY_DIR}/MathFunctionsConfigVersion.cmake"
+VERSION "${Tutorial_VERSION_MAJOR}.${Tutorial_VERSION_MINOR}"
+COMPATIBILITY AnyNewerVersion
+)
+# install the configuration file
+install(FILES
+${CMAKE_CURRENT_BINARY_DIR}/MathFunctionsConfig.cmake
+DESTINATION lib/cmake/MathFunctions
+)
+
+export(EXPORT MathFunctionsTargets
+FILE "${CMAKE_CURRENT_BINARY_DIR}/MathFunctionsTargets.cmake"
+)
